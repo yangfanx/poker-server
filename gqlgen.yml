@@ -3,7 +3,7 @@
 # for detailed .gqlgen.yml documentation.
 
 schema:
-  - internal/gql/schemas/schema.graphql
+  - internal/gql/schemas/*
 # Let gqlgen know where to put the generated server
 exec:
   filename: internal/gql/generated.go

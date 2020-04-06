@@ -2,21 +2,280 @@
 
 package models
 
+import (
+	"fmt"
+	"io"
+	"strconv"
+)
+
+type ActionUser struct {
+	Username string `json:"username"`
+	Token    string `json:"token"`
+}
+
+type Board struct {
+	Card []*string `json:"card"`
+	Pot  *int      `json:"pot"`
+	Logs []*Log    `json:"logs"`
+}
+
+type Hand struct {
+	ID     *string   `json:"id"`
+	Action *Action   `json:"action"`
+	Result *Result   `json:"result"`
+	Cards  []*string `json:"cards"`
+}
+
+type Log struct {
+	Actor  *string   `json:"actor"`
+	Action *string   `json:"action"`
+	Card   []*string `json:"card"`
+}
+
 type Player struct {
-	User     *string   `json:"user"`
-	Cash     *int      `json:"cash"`
-	Seat     *int      `json:"seat"`
-	Position *string   `json:"position"`
-	Cards    []*string `json:"cards"`
+	ID          *string       `json:"id"`
+	UserID      *string       `json:"userId"`
+	Cash        *int          `json:"cash"`
+	Seat        *int          `json:"seat"`
+	Status      *Status       `json:"status"`
+	CurrentHand *Hand         `json:"currentHand"`
+	Reload      *ReloadStatus `json:"reload"`
+}
+
+type Table struct {
+	ID      *string      `json:"id"`
+	Status  *TableStatus `json:"status"`
+	Owner   *string      `json:"owner"`
+	Button  *int         `json:"button"`
+	MinBet  *int         `json:"minBet"`
+	Buyin   *int         `json:"buyin"`
+	Players []*Player    `json:"players"`
+	Board   *Board       `json:"board"`
 }
 
 type User struct {
-	ID     *string `json:"id"`
-	Email  *string `json:"email"`
-	UserID *string `json:"userId"`
+	Username    *string `json:"username"`
+	Token       *string `json:"token"`
+	LastLoginIP *string `json:"lastLoginIP"`
 }
 
-type UserInput struct {
-	Email  *string `json:"email"`
-	UserID *string `json:"userId"`
+type Action string
+
+const (
+	ActionWait   Action = "WAIT"
+	ActionAction Action = "ACTION"
+	ActionCheck  Action = "CHECK"
+	ActionBet    Action = "BET"
+	ActionRaise  Action = "RAISE"
+	ActionCall   Action = "CALL"
+	ActionFold   Action = "FOLD"
+	ActionAllin  Action = "ALLIN"
+	ActionShow   Action = "SHOW"
+)
+
+var AllAction = []Action{
+	ActionWait,
+	ActionAction,
+	ActionCheck,
+	ActionBet,
+	ActionRaise,
+	ActionCall,
+	ActionFold,
+	ActionAllin,
+	ActionShow,
+}
+
+func (e Action) IsValid() bool {
+	switch e {
+	case ActionWait, ActionAction, ActionCheck, ActionBet, ActionRaise, ActionCall, ActionFold, ActionAllin, ActionShow:
+		return true
+	}
+	return false
+}
+
+func (e Action) String() string {
+	return string(e)
+}
+
+func (e *Action) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = Action(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid Action", str)
+	}
+	return nil
+}
+
+func (e Action) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type ReloadStatus string
+
+const (
+	ReloadStatusRequest  ReloadStatus = "Request"
+	ReloadStatusApproved ReloadStatus = "Approved"
+)
+
+var AllReloadStatus = []ReloadStatus{
+	ReloadStatusRequest,
+	ReloadStatusApproved,
+}
+
+func (e ReloadStatus) IsValid() bool {
+	switch e {
+	case ReloadStatusRequest, ReloadStatusApproved:
+		return true
+	}
+	return false
+}
+
+func (e ReloadStatus) String() string {
+	return string(e)
+}
+
+func (e *ReloadStatus) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = ReloadStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid ReloadStatus", str)
+	}
+	return nil
+}
+
+func (e ReloadStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type Result string
+
+const (
+	ResultWin  Result = "WIN"
+	ResultLoss Result = "LOSS"
+)
+
+var AllResult = []Result{
+	ResultWin,
+	ResultLoss,
+}
+
+func (e Result) IsValid() bool {
+	switch e {
+	case ResultWin, ResultLoss:
+		return true
+	}
+	return false
+}
+
+func (e Result) String() string {
+	return string(e)
+}
+
+func (e *Result) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = Result(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid Result", str)
+	}
+	return nil
+}
+
+func (e Result) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type Status string
+
+const (
+	StatusReady   Status = "READY"
+	StatusPlaying Status = "PLAYING"
+	StatusAway    Status = "AWAY"
+)
+
+var AllStatus = []Status{
+	StatusReady,
+	StatusPlaying,
+	StatusAway,
+}
+
+func (e Status) IsValid() bool {
+	switch e {
+	case StatusReady, StatusPlaying, StatusAway:
+		return true
+	}
+	return false
+}
+
+func (e Status) String() string {
+	return string(e)
+}
+
+func (e *Status) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = Status(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid Status", str)
+	}
+	return nil
+}
+
+func (e Status) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type TableStatus string
+
+const (
+	TableStatusWait   TableStatus = "WAIT"
+	TableStatusActive TableStatus = "ACTIVE"
+)
+
+var AllTableStatus = []TableStatus{
+	TableStatusWait,
+	TableStatusActive,
+}
+
+func (e TableStatus) IsValid() bool {
+	switch e {
+	case TableStatusWait, TableStatusActive:
+		return true
+	}
+	return false
+}
+
+func (e TableStatus) String() string {
+	return string(e)
+}
+
+func (e *TableStatus) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = TableStatus(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid TableStatus", str)
+	}
+	return nil
+}
+
+func (e TableStatus) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
 }

@@ -11,23 +11,67 @@ import (
 
 type Resolver struct{}
 
-func (r *mutationResolver) CreateUser(ctx context.Context, input models.UserInput) (*models.User, error) {
+func (r *mutationResolver) CreateUser(ctx context.Context, username string, currentIP string) (*models.User, error) {
 	panic("not implemented")
 }
 
-func (r *mutationResolver) UpdateUser(ctx context.Context, input models.UserInput) (*models.User, error) {
+func (r *mutationResolver) Renew(ctx context.Context, username string, currentIP string) (*models.User, error) {
 	panic("not implemented")
 }
 
-func (r *mutationResolver) DeleteUser(ctx context.Context, userID string) (bool, error) {
+func (r *mutationResolver) CreateTable(ctx context.Context, user models.ActionUser) (*models.Table, error) {
 	panic("not implemented")
 }
 
-func (r *queryResolver) Users(ctx context.Context, userID *string) ([]*models.User, error) {
+func (r *mutationResolver) NextHand(ctx context.Context, table *string) (bool, error) {
 	panic("not implemented")
 }
 
-func (r *queryResolver) Players(ctx context.Context, userID *string) ([]*models.Player, error) {
+func (r *mutationResolver) JoinTable(ctx context.Context, user models.ActionUser, tableID *string) (*models.Player, error) {
+	panic("not implemented")
+}
+
+func (r *mutationResolver) Stand(ctx context.Context, user models.ActionUser, tableID *string) (bool, error) {
+	panic("not implemented")
+}
+
+func (r *mutationResolver) Sit(ctx context.Context, user models.ActionUser, tableID *string) (bool, error) {
+	panic("not implemented")
+}
+
+func (r *mutationResolver) RequestBuyIn(ctx context.Context, user models.ActionUser) (bool, error) {
+	panic("not implemented")
+}
+
+func (r *mutationResolver) ApproveBuyIn(ctx context.Context, user models.ActionUser, actor string) (bool, error) {
+	panic("not implemented")
+}
+
+func (r *mutationResolver) Check(ctx context.Context, user models.ActionUser) (bool, error) {
+	panic("not implemented")
+}
+
+func (r *mutationResolver) Bet(ctx context.Context, user models.ActionUser, amount int) (bool, error) {
+	panic("not implemented")
+}
+
+func (r *mutationResolver) Fold(ctx context.Context, user models.ActionUser) (bool, error) {
+	panic("not implemented")
+}
+
+func (r *mutationResolver) Straddle(ctx context.Context, user models.ActionUser) (bool, error) {
+	panic("not implemented")
+}
+
+func (r *mutationResolver) Showcard(ctx context.Context, user models.ActionUser) (bool, error) {
+	panic("not implemented")
+}
+
+func (r *queryResolver) Tables(ctx context.Context, status *models.TableStatus) ([]*models.Table, error) {
+	panic("not implemented")
+}
+
+func (r *queryResolver) Users(ctx context.Context, username *string) ([]*models.User, error) {
 	panic("not implemented")
 }
 

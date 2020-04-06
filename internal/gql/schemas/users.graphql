@@ -1,0 +1,6 @@
+# Types
+type User {
+  username: String
+  token: String
+  lastLoginIP: String
+}

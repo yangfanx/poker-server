@@ -1,0 +1,29 @@
+input ActionUser {
+  username: String!
+  token: String!
+}
+
+type Mutation {
+  createUser(username: String!, currentIP: String!): User!
+  renew(username: String!, currentIP: String!): User!
+
+  createTable(user: ActionUser!): Table!
+  nextHand(table: ID): Boolean!
+
+  joinTable(user: ActionUser!, tableId: ID): Player!
+  stand(user: ActionUser!, tableId: ID): Boolean!
+  sit(user: ActionUser!, tableId: ID): Boolean!
+  requestBuyIn(user: ActionUser!): Boolean!
+  approveBuyIn(user: ActionUser!, actor: String!): Boolean!
+
+  check(user: ActionUser!): Boolean!
+  bet(user: ActionUser!, amount: Int!): Boolean!
+  fold(user: ActionUser!): Boolean!
+  straddle(user: ActionUser!): Boolean!
+  showcard(user: ActionUser!): Boolean!
+}
+
+type Query {
+  tables(status: TableStatus): [Table]
+  users(username: String): [User]
+}

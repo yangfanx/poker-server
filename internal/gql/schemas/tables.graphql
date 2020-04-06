@@ -1,0 +1,27 @@
+type Table {
+  id: ID
+  status: TableStatus
+  owner: String
+  button: Int
+  minBet: Int
+  buyin: Int
+  players: [Player]
+  board: Board
+}
+
+enum TableStatus {
+  WAIT
+  ACTIVE
+}
+
+type Board {
+  card: [String]
+  pot: Int
+  logs: [Log]
+}
+
+type Log {
+  actor: String
+  action: String
+  card: [String]
+}

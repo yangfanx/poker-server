@@ -1,0 +1,44 @@
+type Player {
+  id: ID
+  userId: ID
+  cash: Int
+  seat: Int
+  status: Status
+  currentHand: Hand
+  reload: ReloadStatus
+}
+
+type Hand {
+  id: ID
+  action: Action
+  result: Result
+  cards: [String]
+}
+
+enum Status {
+  READY
+  PLAYING
+  AWAY
+}
+
+enum Action {
+  WAIT
+  ACTION
+  CHECK
+  BET
+  RAISE
+  CALL
+  FOLD
+  ALLIN
+  SHOW
+}
+
+enum Result {
+  WIN
+  LOSS
+}
+
+enum ReloadStatus {
+  Request
+  Approved
+}
